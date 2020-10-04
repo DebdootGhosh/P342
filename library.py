@@ -5,8 +5,9 @@ Spyder Editor
 This is a temporary script file.
 """
 
+import math
 
-def partialpivot1(A,B):
+def partialpivot(A,B):
     n=len(B)
     for r in range(n-1):
         if abs(A[r][r])==0:
@@ -17,32 +18,7 @@ def partialpivot1(A,B):
                         B[r],B[i]=B[i],B[r]
     return B,A
 
-def partialpivot(A):
-    n=len(A)
-    for r in range(n-1):
-        if abs(A[r][r])==0:
-            for i in range(r+1,n):
-                if abs(A[i][r])>abs(A[r][r]):
-                    A[i],A[r]=A[r],A[i]
-                        
-    return A                    
-def gaussjordan1(A,B): 
-    n=len(B)
-    for r in range(n):
-        partialpivot(A,B)
-        pivot=A[r][r]
-        for c in range(r,n):
-            A[r][c]=A[r][c]/pivot
-        B[r]=B[r]/pivot
-                            
-        for i in range(n):
-            if i==r or A[i][r]==0: continue 
-            factor=A[i][r]
-            for j in range(r,n):
-                A[i][j]=A[i][j]-factor*A[r][j]
-            B[i]=B[i]-factor*B[r]
-                
-    return B,A
+
 
 def readwritematrix(fileA):
     A=[]
@@ -51,16 +27,8 @@ def readwritematrix(fileA):
     print(A)
     return A
 
-def partialpivot2(A,B):
-    n=len(B)
-    for r in range(n-1):
-        if abs(A[r][r])==0:
-            for i in range(r+1,n):
-                if abs(A[i][r])>abs(A[r][r]):
-                    B[r],B[i]=B[i],B[r]
-                    A[r],A[i]=A[i],A[r]
-    return B,A                
-def gaussjordan2(A,B):
+             
+def gaussjordan(A,B):
     n=len(B)
     partialpivot(A,B)
     for r in range(n):
@@ -198,4 +166,201 @@ def LUsolution(A,B):
     lower,upper=luDecomposition(A, n)
     y=forwardsubstitution(lower,B)
     x=backwardsubstitution(upper,y)
-    return x        
+    return x
+  
+      
+# bisection method
+def bisection(f, a, b, tol, maxit):
+    
+    fa=f(a)
+    if abs(fa) < tol:
+        return a
+    
+    fb=f(b)
+    if abs(fb) < tol:
+        return b
+    
+    if fa*fb > 0:
+        for i in range(12):
+            
+            if abs(fa)<abs(fb):
+                a = a - 1.5 * (b - a)
+                return a,b
+            if abs(fa)>abs(fb):
+                b = b + 1.5 * (b - a)
+                return a,b
+        if i>12:
+            print("Start with a new pair of (a,b)")
+            return None
+    c=0
+    abserror=0
+    for i in range(1,maxit+1):
+        c_prev=c
+        c = (a+b)/2
+        abserror=abs(c-c_prev)
+        fc=f(c)
+        print('Iteration-%d, c = %0.6f, absolute error = %0.6f, and f(c) = %0.6f' % (i, c,abserror, f(c)))
+
+        if abs(b-a) < tol:
+            return
+        if abs(fc)< tol:
+            return c
+        if fa*fc>0:
+            a, fa=c, fc
+        if fb*fc>0:
+            b, fb= c, fc   
+            
+    return c          
+ 
+ 
+# false Position method           
+def falsePosition(f,x0,x1,e,N):
+    if f(x0) * f(x1) > 0.0:
+       print('Given guess values do not bracket the root.')
+       print('Try Again with different guess values.')
+    else:
+      i = 1
+      abserror=0
+      x2=0
+      print('\n\n*** FALSE POSITION METHOD IMPLEMENTATION ***')
+      condition = True
+      while condition and i <=N:
+            x2prev=x2
+            x2 = x0 - (x1-x0) * f(x0)/( f(x1) - f(x0) )
+            abserror= abs(x2-x2prev)
+            print('Iteration-%d, x2 = %0.6f, absolute error = %0.6f, and f(x2) = %0.6f' % (i, x2,abserror, f(x2)))
+
+            if f(x0) * f(x2) < 0:
+               x1 = x2
+            else:
+               x0 = x2
+
+            i = i + 1
+            condition = abs(f(x2)) > e
+
+    print('\nRequired root is: %0.8f' % x2)
+    if i > N:
+        print('\nNot Convergent.')
+    
+# derivative function        
+def derivativef(f,a,method):
+    h=0.0001
+    if method == 'central':
+        return (f(a + h) - f(a - h))/(2*h)
+    elif method == 'forward':
+        return (f(a + h) - f(a))/h
+    elif method == 'backward':
+        return (f(a) - f(a - h))/h
+    else:
+        raise ValueError("Method must be 'central', 'forward' or 'backward'.")
+        
+      
+#Newton Raphson method
+def newtonRaphson(f,x0,e,N):
+    print('\n\n*** NEWTON RAPHSON METHOD IMPLEMENTATION ***')
+    step = 1
+    condition = True
+    x1=0
+    abserror=0
+    while condition and step <= N:
+        if derivativef(f,x0,'central') == 0.0:
+            print('Divide by zero error!')
+            return
+        x1prev=x1
+        x1 = x0 - f(x0)/derivativef(f,x0,'central')
+        abserror=abs(x1-x1prev)
+        print('Iteration-%d, x1 = %0.6f, absolute error = %f, and f(x1) = %0.6f' % (step, x1, abserror, f(x1)))
+        x0 = x1
+        step = step + 1
+        condition = abs(f(x1)) > e
+        
+    print('\nRequired root is: %0.8f' % x1)
+    if step > N:
+        print('\nNot Convergent.')
+
+#Laguerre method
+# polynomial function
+def polynomial(x,a):
+    n=len(a)
+    sum=0.0
+    for i in range(n-1,-1,-1):
+        sum+=a[i]*(x**i)
+    return sum
+
+# 1st derivative of polynomial
+def d1polynomial(x,a):
+    h=0.001
+    y=(polynomial(x+h,a)-polynomial(x-h,a))/(2*h)
+    return y
+
+# 2nd derivative of polynomial
+def d2polynomial(x,a):
+    h = 0.001
+    y = (polynomial(x + h, a) + polynomial(x - h, a)-2*polynomial(x,a)) / (2 * h*h)
+    return y
+
+# deflation or synthetic division
+def deflation(root,a):
+    n=len(a)
+    A=[0 for i in range(n-1)]
+    A[n-2]=a[n-1]
+    #synthetic division
+    for i in range(n-3,-1,-1):
+        A[i]=a[i+1]+(root*A[i+1])
+
+    return A
+
+# Laguerre method
+def Laguerre(a,x0,e,kmax):
+    n=len(a)
+    if n>2:
+        m=x0
+        mi,mj=x0,0
+        k=1
+        if polynomial(x0,a)!=0:
+            while abs(mj-mi)>e and k<kmax:
+                g=d1polynomial(m,a)/polynomial(m,a)
+
+                h=g**2-(d2polynomial(m,a)/polynomial(m,a))
+
+                deno1=g+math.sqrt((n-1)*(n*h-g**2))
+
+                deno2=g-math.sqrt((n-1)*(n*h-g**2))
+
+                if abs(deno1)>abs(deno2):
+                    m=n/deno1
+                else:
+                    m=n/deno2
+
+                if k%2==0:
+                    mi=mj-m
+                    m=mi
+
+                else:
+                    mj=mi-m
+                    m=mj
+
+
+                k+=1
+        if k%2==0:
+            print("The root is:",mi)
+            a=deflation(mi,a)
+        else:
+            print("The root is:",mj)
+            a = deflation(mj, a)
+        print("Coefficients of the reduced polynomial are:")    
+        print(a)
+        return a 
+    else:
+        if a[1]*a[0]>0 :
+            print("The root is:",-a[0]/a[1])
+    
+        else:
+            print("The root is:",a[0]/a[1])
+            
+
+        return 0
+
+
+
+        
