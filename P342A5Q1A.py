@@ -6,15 +6,16 @@ Created on Sun Sep 27 11:34:52 2020
 """
 import library as lib
 import math
-
+# given function
 func = lambda x: math.log(x) - math.sin(x)
 a=1.5
 b=2.5
+# calling bisection function from library
 x= lib.bisection(func, a, b, tol=1e-6, maxit=200)
 print("Solution is: x={},f(x)={}".format(x,func(x)))
-
+# calling falseposition function from library
 p= lib.falsePosition(func,a,b,1e-6,200)
-
+# calling newtonRaphson function from library
 i= lib.newtonRaphson(func,1.5,1e-6,200)
 
 #Solution is: x=2.219106674194336,f(x)=-5.005784979861261e-07
