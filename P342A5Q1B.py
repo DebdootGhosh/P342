@@ -6,16 +6,17 @@ Created on Mon Sep 28 07:58:19 2020
 """
 import library as lib
 import math
-
+# given function
 func = lambda x: -x - math.cos(x)
 
 a=-1
 b=2
+# calling bisection function from library
 x= lib.bisection(func, a, b, 1e-6, 200)
 print("Solution is: x={},f(x)={}".format(x,func(x)))
-
+# calling falseposition function from library
 p= lib.falsePosition(func,a,b,1e-6,200)
-
+# calling newtonRaphson function from library
 i= lib.newtonRaphson(func,0,1e-6,200)
 
 #Solution is: x=-0.7390847206115723,f(x)=-6.905382659017079e-07
