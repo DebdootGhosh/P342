@@ -361,6 +361,64 @@ def Laguerre(a,x0,e,kmax):
 
         return 0
 
+# midpoint numerical integration method
+def midpoint(f, a, b, n):
+    # calculating step size
+    h = (b-a)/n
+    result = 0
+    for i in range(n):
+        result += f((a + h/2) + i*h)
+    # Finding final integration value    
+    result *= h
+    return result
 
+# trapezoidal numerical integration method
+def trapezoidal(f, a, b, n):
+    # calculating step size
+    h = (b-a)/n
+    # Finding sum
+    result = 0.5*f(a)+0.5*f(b)
+    for i in range(1,n):
+        result += f(a + i*h)
+    # Finding final integration value    
+    result *= h 
+    return result
+
+# simpson numerical integration method
+def simpson(f, a, b, n):
+    # calculating step size
+    h = (b - a) / n
+    
+    # Finding sum 
+    result = f(a) + f(b)
+    
+    for i in range(1,n):
+        x = a + i*h
+        
+        if i%2 == 0:
+            result = result + 2 * f(x)
+        else:
+            result = result + 4 * f(x)
+    
+    # Finding final integration value
+    result = result * h/3
+    
+    return result
+
+# monte carlo integration method
+import random   
+def monte_carlo(f, a, b, n):
+    x=[0 for i in range(n)]
+    
+    for i in range(n):
+        x[i] = random.uniform(a,b)
+        result=0.0
+        
+    for i in range(n):
+        result += f(x[i])
+        
+    result *= (b-a)/n    
+    
+    return result    
 
         
