@@ -524,7 +524,7 @@ def shooting_method(f1,f2,x0,y0,xn,yn,h,g):
         print("Value of y(x=xn) found, integration successful")
 
 
-
+# lagrange interpolation function
 def lagrange_interpolation(upper,lower,f1, f2, x0, y0, xn, yn, h):
     # yn for lower bracket
     yl = rk4(f2, x0, y0, lower,xn, h)    
