@@ -269,7 +269,7 @@ def newtonRaphson(f,x0,e,N):
         x1prev=x1
         x1 = x0 - f(x0)/derivativef(f,x0,'central')
         abserror=abs(x1-x1prev)
-        print('Iteration-%d, x1 = %0.6f, absolute error = %f, and f(x1) = %0.6f' % (step, x1, abserror, f(x1)))
+        print('Iteration-%d, x1 = %0.8f, absolute error = %f, and f(x1) = %0.f' % (step, x1, abserror, f(x1)))
         x0 = x1
         step = step + 1
         condition = abs(f(x1)) > e
@@ -449,10 +449,10 @@ def rk4(f,x0,y0,v0,xn,h):
     # to solve dy/dx = v 
     def v(x,v):
         return v
-    print('\n--------SOLUTION---------------')
-    print('--------------------------------')    
-    print('x0  \ty0  \tyn ')
-    print('--------------------------------')
+    #print('\n--------SOLUTION---------------')
+    #print('--------------------------------')    
+    #print('x0  \ty0  \tyn ')
+    #print('--------------------------------')
     # solving dv/dx = f(x,y,v) and dy/dx=v(x,v) simultaneously
     for i in range(n+1):
         k1 = h * (f(x0, y0,v0))
@@ -467,7 +467,7 @@ def rk4(f,x0,y0,v0,xn,h):
         kv = (k1v+2*k2v+2*k3v+k4v)/6
         yn = y0 + kv
         vn = v0 + k
-        print('%.5f\t%.5f\t%.5f'% (x0,y0,yn) )
+        #print('%.5f\t%.5f\t%.5f'% (x0,y0,yn) )
         #print('-----------------------------')
         y0 = yn
         x0 = x0+h
@@ -524,7 +524,7 @@ def shooting_method(f1,f2,x0,y0,xn,yn,h,g):
         print("Value of y(x=xn) found, integration successful")
 
 
-# lagrange interpolation function
+
 def lagrange_interpolation(upper,lower,f1, f2, x0, y0, xn, yn, h):
     # yn for lower bracket
     yl = rk4(f2, x0, y0, lower,xn, h)    
@@ -533,7 +533,7 @@ def lagrange_interpolation(upper,lower,f1, f2, x0, y0, xn, yn, h):
     # for next y'(x0)
     g = lower + ((upper - lower) / (yh - yl)) * (yn - yl)
     # yn for the new y'(x0)
-    y = rk4(f2, x0, y0, g, xn, h)
+    y= rk4(f2, x0, y0, g, xn, h)
     print("Value of y(x=xn) found, integration successful")
     
         
