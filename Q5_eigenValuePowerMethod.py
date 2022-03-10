@@ -42,4 +42,16 @@ print('eigen vector from given expression for largest eigen value',j)
 u = eigenV_givExpre(1)
 print('eigen vector from given expression for largest eigen value',u)  
 #print(v)
-    
+#The largest eigen value of the given matrix is: 3.7320508075620786
+
+#The eigen vector corresponding to the largest eigen value is: [-0.2886764243233149, 0.500001289727799, -0.577350269187705, 0.49999871026887416, -0.2886738448643901]
+
+#The 2nd largest eigen value of the given matrix is: 3.0000000000025295
+
+#The eigen vector corresponding to the 2nd largest eigen value is: [0.4999994014520969, -0.4999989632459214, -1.197142310837108e-06, 0.5000010367386596, -0.5000005985590228]
+
+#The largest eigen value from the given expression: 3.7320508075688776
+
+#The 2nd largest eigen value from the given expression: 3.0
+#eigen vector from given expression for largest eigen value [0.0, 1.7320508075688772, 1.7320508075688774, 2.4492935982947064e-16, -1.732050807568877]
+#eigen vector from given expression for largest eigen value [0.0, 0.9999999999999999, 1.7320508075688772, 2.0, 1.7320508075688774]    
