@@ -54,4 +54,4 @@ print('eigen vector from given expression for largest eigen value',u)
 
 #The 2nd largest eigen value from the given expression: 3.0
 #eigen vector from given expression for largest eigen value [0.0, 1.7320508075688772, 1.7320508075688774, 2.4492935982947064e-16, -1.732050807568877]
-#eigen vector from given expression for largest eigen value [0.0, 0.9999999999999999, 1.7320508075688772, 2.0, 1.7320508075688774]    
+#eigen vector from given expression for 2nd largest eigen value [0.0, 0.9999999999999999, 1.7320508075688772, 2.0, 1.7320508075688774]    
